@@ -11,35 +11,37 @@ class View(ft.UserControl):
         self._page.theme_mode = ft.ThemeMode.DARK
         # controller (it is not initialized. Must be initialized in the main, after the controller is created)
         self._controller = None
+
         # graphical elements
+        self.lst_result = None
         self._title = None
-        self.txt_name = None
-        self.btn_hello = None
-        self.txt_result = None
-        self.txt_container = None
+
+        self._dddistanza = None
+
+        self._btnAnalizzaAeroporti = None
 
     def load_interface(self):
         # title
-        self._title = ft.Text("Hello World", color="blue", size=24)
-        self._page.controls.append(self._title)
+        self._title = ft.Text("Flights Manager", color="blue", size=24)
 
-        #ROW with some controls
-        # text field for the name
-        self.txt_name = ft.TextField(
-            label="name",
-            width=200,
-            hint_text="Insert a your name"
-        )
+        # ROW with title
+        row1 = ft.Row([self._title])
 
-        # button for the "hello" reply
-        self.btn_hello = ft.ElevatedButton(text="Hello", on_click=self._controller.handle_hello)
-        row1 = ft.Row([self.txt_name, self.btn_hello],
-                      alignment=ft.MainAxisAlignment.CENTER)
-        self._page.controls.append(row1)
+        # Row with controls
+        self._btnAnalizzaAeroporti = ft.ElevatedButton(text="Analizza Aeroporti", on_click=self._controller.handleCreaGrafo)
+        self._txtDistanza = ft.TextField(label="Distanza minima")
 
-        # List View where the reply is printed
-        self.txt_result = ft.ListView(expand=1, spacing=10, padding=20, auto_scroll=True)
-        self._page.controls.append(self.txt_result)
+
+        row2 = ft.Row([self._btnAnalizzaAeroporti,
+                       self._txtDistanza
+
+                       ], alignment=ft.MainAxisAlignment.CENTER, spacing=30)
+
+        # Row with listview
+        self.lst_result = ft.ListView(expand=1, spacing=10, padding=20, auto_scroll=False)
+
+        self._page.add(row1, row2, self.lst_result)
+
         self._page.update()
 
     @property
